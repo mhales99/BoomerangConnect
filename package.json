@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.27.1",
     "@babel/preset-env": "^7.28.0",
+    "@babel/preset-flow": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@babel/runtime": "^7.25.0",
@@ -57,8 +59,8 @@
     "@types/jest": "^29.5.13",
     "@types/react": "^19.1.0",
     "@types/react-test-renderer": "^19.1.0",
-    "@wdio/cli": "^8.32.4",
     "@wdio/appium-service": "^8.32.4",
+    "@wdio/cli": "^8.32.4",
     "appium": "^2.5.1",
     "babel-loader": "^10.0.0",
     "chromedriver": "^124.0.0",
@@ -123,17 +125,25 @@
     },
     "reporters": [
       "default",
-      ["jest-html-reporter", {
-        "pageTitle": "BoomerangConnect Test Report",
-        "outputPath": "test-report.html",
-        "includeFailureMsg": true,
-        "includeConsoleLog": true
-      }],
-      ["jest-junit", {
-        "outputDirectory": "./test-results",
-        "outputName": "junit.xml"
-      }],
-      ["jest-sonar-reporter"]
+      [
+        "jest-html-reporter",
+        {
+          "pageTitle": "BoomerangConnect Test Report",
+          "outputPath": "test-report.html",
+          "includeFailureMsg": true,
+          "includeConsoleLog": true
+        }
+      ],
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./test-results",
+          "outputName": "junit.xml"
+        }
+      ],
+      [
+        "jest-sonar-reporter"
+      ]
     ]
   },
   "jestSonar": {
