@@ -1,97 +1,119 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# BoomerangConnect
 
-# Getting Started
+A cross-platform mobile and web application for connecting users.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Testing Overview
 
-## Step 1: Start Metro
+BoomerangConnect includes a comprehensive testing suite with unit tests, integration tests, and end-to-end tests for both mobile and web platforms.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Unit and Integration Tests
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Unit and integration tests are implemented using Jest and React Testing Library.
 
-```sh
-# Using npm
-npm start
+```bash
+# Run all tests
+npm test
 
-# OR using Yarn
-yarn start
+# Run tests with coverage report
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests in CI mode
+npm run test:ci
 ```
 
-## Step 2: Build and run your app
+Test coverage reports are generated in HTML, JUnit XML, and Sonar formats.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### End-to-End Tests
 
-### Android
+#### Mobile E2E Tests (Detox)
 
-```sh
-# Using npm
-npm run android
+For mobile end-to-end testing, we use Detox.
 
-# OR using Yarn
-yarn android
+```bash
+# iOS
+npm run e2e:build:ios  # Build the iOS app for testing
+npm run e2e:test:ios   # Run E2E tests on iOS
+
+# Android
+npm run e2e:build:android  # Build the Android app for testing
+npm run e2e:test:android   # Run E2E tests on Android
 ```
 
-### iOS
+#### Web E2E Tests (WebdriverIO)
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+For web end-to-end testing, we use WebdriverIO.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+```bash
+# Start the web app
+npm run web
 
-```sh
-bundle install
+# In another terminal, run the E2E tests
+npm run e2e:web
 ```
 
-Then, and every time you update your native dependencies, run:
+### Test Structure
 
-```sh
-bundle exec pod install
+- `__tests__/` - Unit and integration tests
+  - `components/` - Component tests
+  - `screens/` - Screen tests
+  - `navigation/` - Navigation tests
+  - `services/` - Service/API tests
+  - `utils/` - Utility function tests
+  - `setup.js` - Jest setup file
+
+- `e2e/` - End-to-end tests
+  - Mobile tests (Detox)
+  - `web/` - Web tests (WebdriverIO)
+
+### Coverage Requirements
+
+The project has the following test coverage requirements:
+- Statements: 80%
+- Branches: 70%
+- Functions: 80%
+- Lines: 80%
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start the Metro bundler
+npx react-native start
+
+# Run on Android
+npx react-native run-android
+
+# Run on iOS
+npx react-native run-ios
+
+# Run web version
+npm run web
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Building for Production
 
-```sh
-# Using npm
-npm run ios
+```bash
+# Build for Android
+npx react-native run-android --variant=release
 
-# OR using Yarn
-yarn ios
+# Build for iOS
+npx react-native run-ios --configuration=Release
+
+# Build for web
+npm run build-web
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Deployment
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+The app can be deployed to various platforms:
 
-## Step 3: Modify your app
+- iOS: App Store
+- Android: Google Play Store
+- Web: Vercel (see SETUP_GUIDE.md)
 
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+For more information on setup and deployment, please refer to the SETUP_GUIDE.md file.
