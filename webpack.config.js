@@ -130,6 +130,10 @@ module.exports = {
       'react-native-reanimated': 'react-native-web',
       'react-native-screens': 'react-native-web',
       '@react-native-masked-view/masked-view': 'react-native-web',
+      // Mock modules for mobile-specific dependencies
+      'react-native-permissions': path.resolve(__dirname, 'src/mocks/web/react-native-permissions.js'),
+      '@react-native-firebase/messaging': path.resolve(__dirname, 'src/mocks/web/@react-native-firebase/messaging.js'),
+      '@notifee/react-native': path.resolve(__dirname, 'src/mocks/web/@notifee/react-native.js'),
     },
     // This is the key fix for React Navigation ESM issues
     fullySpecified: false,
