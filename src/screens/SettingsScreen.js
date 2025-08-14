@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,50 @@ import {
   ScrollView,
   TouchableOpacity,
   Switch,
+  Alert,
 } from 'react-native';
+import AnalyticsService from '../services/AnalyticsService';
+import ConsentManager from '../components/ConsentManager';
+import AnalyticsDashboard from '../components/AnalyticsDashboard';
 
 const SettingsScreen = () => {
+  const [consentGiven, setConsentGiven] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [showAnalyticsDashboard, setShowAnalyticsDashboard] = useState(false);
+
+  useEffect(() => {
+    loadConsentStatus();
+  }, []);
+
+  const loadConsentStatus = async () => {
+    try {
+      const status = await AnalyticsService.getConsentStatus();
+      setConsentGiven(status);
+    } catch (error) {
+      console.error('Failed to load consent status:', error);
+    }
+  };
+
+  const handleConsentChange = (consent) => {
+    setConsentGiven(consent);
+    setShowConsentModal(false);
+  };
+
+  const handleAnalyticsDashboard = () => {
+    if (consentGiven) {
+      setShowAnalyticsDashboard(true);
+    } else {
+      Alert.alert(
+        'Consent Required',
+        'Please provide consent for data collection to access the analytics dashboard.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Manage Consent', onPress: () => setShowConsentModal(true) },
+        ]
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -76,7 +117,20 @@ const SettingsScreen = () => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Data</Text>
+            <Text style={styles.sectionTitle}>Data & Analytics</Text>
+            <TouchableOpacity style={styles.settingItem} onPress={() => setShowConsentModal(true)}>
+              <Text style={styles.settingLabel}>Data Collection Consent</Text>
+              <View style={styles.consentStatus}>
+                <Text style={[styles.consentIndicator, { color: consentGiven ? '#4CAF50' : '#F44336' }]}>
+                  {consentGiven ? '✓' : '✗'}
+                </Text>
+                <Text style={styles.settingArrow}>›</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.settingItem} onPress={handleAnalyticsDashboard}>
+              <Text style={styles.settingLabel}>Analytics Dashboard</Text>
+              <Text style={styles.settingArrow}>›</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.settingItem}>
               <Text style={styles.settingLabel}>Export Data</Text>
               <Text style={styles.settingArrow}>›</Text>
@@ -96,6 +150,26 @@ const SettingsScreen = () => {
           </View>
         </View>
       </ScrollView>
+
+      {/* Consent Manager Modal */}
+      <ConsentManager
+        visible={showConsentModal}
+        onConsentChange={handleConsentChange}
+        onClose={() => setShowConsentModal(false)}
+      />
+
+      {/* Analytics Dashboard Modal */}
+      {showAnalyticsDashboard && (
+        <View style={styles.dashboardModal}>
+          <View style={styles.dashboardHeader}>
+            <Text style={styles.dashboardTitle}>Analytics Dashboard</Text>
+            <TouchableOpacity onPress={() => setShowAnalyticsDashboard(false)}>
+              <Text style={styles.closeButton}>✕</Text>
+            </TouchableOpacity>
+          </View>
+          <AnalyticsDashboard />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -180,6 +254,43 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 12,
     color: '#8E8E93',
+  },
+  consentStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  consentIndicator: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  dashboardModal: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
+    zIndex: 1000,
+  },
+  dashboardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    backgroundColor: '#fff',
+  },
+  dashboardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  closeButton: {
+    fontSize: 24,
+    color: '#666',
+    padding: 5,
   },
 });
 
