@@ -1,10 +1,11 @@
-// Import gesture handler first as recommended
-import 'react-native-gesture-handler';
+// Direct web entry point - simplified for troubleshooting
 import { AppRegistry } from 'react-native';
-import App from './App';
-import { name as appName } from './app.json';
+import WebApp from './src/WebApp';
 
-AppRegistry.registerComponent(appName, () => App);
-AppRegistry.runApplication(appName, {
+// Register the app
+AppRegistry.registerComponent('BoomerangConnect', () => WebApp);
+
+// Run the app
+AppRegistry.runApplication('BoomerangConnect', {
   rootTag: document.getElementById('root')
 });
