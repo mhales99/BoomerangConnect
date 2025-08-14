@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
+    "@babel/plugin-transform-class-properties": "^7.27.1",
     "@babel/plugin-transform-flow-strip-types": "^7.27.1",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-flow": "^7.27.1",
