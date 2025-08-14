@@ -59,6 +59,11 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  // Set stats configuration to handle child compiler errors
+  stats: {
+    children: true,
+    errorDetails: true,
+  },
   module: {
     rules: [
       // Special rule for React Navigation modules
@@ -133,6 +138,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
       filename: 'index.html',
+      minify: false, // Disable minification to avoid child compilation issues
+      inject: true,
     }),
     new CopyPlugin({
       patterns: [
@@ -176,5 +183,22 @@ module.exports = {
     compress: true,
     port: 3000,
     hot: true,
+  },
+  // Optimize for production builds
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // We're not specifying explicit minimizers here to use webpack defaults
+      // This helps avoid issues with child compilations
+    ],
+    splitChunks: {
+      chunks: 'all',
+      name: false,
+    },
+  },
+  // Handle node_modules specially
+  externals: {
+    // Avoid bundling problematic packages
+    'react-native-fs': 'commonjs react-native-fs',
   },
 };
