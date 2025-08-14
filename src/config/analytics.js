@@ -89,7 +89,7 @@ export const ANALYTICS_EVENTS = {
   SCREEN_VIEW: 'screen_view',
   BUTTON_CLICK: 'button_click',
   FEATURE_USAGE: 'feature_usage',
-  
+
   // Business Events
   USER_REGISTRATION: 'user_registration',
   USER_LOGIN: 'user_login',
@@ -97,17 +97,24 @@ export const ANALYTICS_EVENTS = {
   PROFILE_UPDATE: 'profile_update',
   CONNECTION_MADE: 'connection_made',
   MESSAGE_SENT: 'message_sent',
-  
+
   // Performance Events
   APP_LAUNCH: 'app_launch',
   SCREEN_LOAD: 'screen_load',
   API_CALL: 'api_call',
   ERROR: 'error',
-  
+
   // Monetization Events
   DATA_COLLECTION: 'data_collection',
   CONSENT_GIVEN: 'consent_given',
   CONSENT_REVOKED: 'consent_revoked',
+  
+  // Notification Events
+  NOTIFICATION_RECEIVED: 'notification_received',
+  NOTIFICATION_OPENED: 'notification_opened',
+  NOTIFICATION_PERMISSION_REQUESTED: 'notification_permission_requested',
+  NOTIFICATION_PERMISSION_CHANGED: 'notification_permission_changed',
+  NOTIFICATION_TOKEN_REFRESHED: 'notification_token_refreshed',
 };
 
 // Screen names for consistent tracking
