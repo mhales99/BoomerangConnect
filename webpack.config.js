@@ -13,13 +13,15 @@ class ReactNavigationResolver {
   apply(resolver) {
     const target = resolver.ensureHook(this.target);
     resolver.getHook(this.source).tapAsync('ReactNavigationResolver', (request, resolveContext, callback) => {
-      // Only process React Navigation modules
+      // Only process React Navigation modules - safely check context
       if (request.context && 
+          typeof request.context === 'string' && 
           (request.context.includes('@react-navigation') || 
            request.context.includes('react-navigation'))) {
         
         // Only process requests without file extensions
         if (request.request && 
+            typeof request.request === 'string' &&
             !request.request.endsWith('.js') && 
             !request.request.endsWith('.jsx') && 
             !request.request.endsWith('.ts') && 
@@ -157,6 +159,10 @@ module.exports = {
     new webpack.NormalModuleReplacementPlugin(
       /(@react-navigation.*?|react-navigation.*?)\/(.+)/,
       (resource) => {
+        if (!resource.request || typeof resource.request !== 'string') {
+          return;
+        }
+        
         if (resource.request.endsWith('.js') || 
             resource.request.endsWith('.jsx') || 
             resource.request.endsWith('.ts') || 
@@ -167,6 +173,7 @@ module.exports = {
         
         // Check if this is a relative import within React Navigation
         if (resource.context && 
+            typeof resource.context === 'string' &&
             (resource.context.includes('@react-navigation') || 
              resource.context.includes('react-navigation')) && 
             resource.request.startsWith('.')) {
