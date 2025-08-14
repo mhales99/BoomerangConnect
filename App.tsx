@@ -6,28 +6,67 @@
 
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Platform } from 'react-native';
+
+// Import navigators
 import AppNavigator from './src/navigation/AppNavigator';
-import notificationService from './src/services/NotificationService';
-import firebaseService from './src/services/FirebaseService';
-import NotificationBanner from './src/components/NotificationBanner';
-import NotificationPermission from './src/components/NotificationPermission';
+import WebAppNavigator from './src/navigation/WebAppNavigator';
+
+// Use platform-specific navigator
+const Navigator = Platform.OS === 'web' ? WebAppNavigator : AppNavigator;
+
+// Conditionally import Firebase services to avoid issues on web
+const loadServices = () => {
+  // Use dynamic imports to prevent loading issues on web
+  if (Platform.OS !== 'web') {
+    return Promise.all([
+      import('./src/services/FirebaseService'),
+      import('./src/services/NotificationService'),
+      import('./src/components/NotificationBanner'),
+      import('./src/components/NotificationPermission')
+    ]).then(([
+      { default: firebaseService },
+      { default: notificationService },
+      { default: NotificationBanner },
+      { default: NotificationPermission }
+    ]) => {
+      return { firebaseService, notificationService, NotificationBanner, NotificationPermission };
+    });
+  }
+  return Promise.resolve({ firebaseService: null, notificationService: null, NotificationBanner: null, NotificationPermission: null });
+};
 
 function App(): React.JSX.Element {
   const [notification, setNotification] = useState(null);
   const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
+  const [services, setServices] = useState({ 
+    firebaseService: null, 
+    notificationService: null, 
+    NotificationBanner: null, 
+    NotificationPermission: null 
+  });
 
   useEffect(() => {
-    // Initialize Firebase
-    firebaseService.initialize();
+    // Load services based on platform
+    loadServices().then(loadedServices => {
+      setServices(loadedServices);
+      
+      // Initialize services if not on web
+      if (Platform.OS !== 'web' && loadedServices.firebaseService && loadedServices.notificationService) {
+        // Initialize Firebase
+        loadedServices.firebaseService.initialize();
 
-    // Initialize notifications
-    initializeNotifications();
+        // Initialize notifications
+        initializeNotifications(loadedServices.notificationService);
 
-    // Check if we should show permission prompt
-    checkNotificationPermission();
+        // Check if we should show permission prompt
+        checkNotificationPermission(loadedServices.notificationService);
+      }
+    });
   }, []);
 
-  const initializeNotifications = async () => {
+  const initializeNotifications = async (notificationService) => {
+    if (!notificationService) return;
+    
     await notificationService.initialize({
       onNotificationReceived: handleNotificationReceived,
       onNotificationOpenedApp: handleNotificationOpened,
@@ -35,7 +74,9 @@ function App(): React.JSX.Element {
     });
   };
 
-  const checkNotificationPermission = async () => {
+  const checkNotificationPermission = async (notificationService) => {
+    if (!notificationService) return;
+    
     const status = await notificationService.checkPermission();
     // Show permission prompt if not granted and not blocked
     if (status !== 'granted' && status !== 'blocked') {
@@ -77,22 +118,38 @@ function App(): React.JSX.Element {
     }
   };
 
+  // Render notification components only if not on web and they're loaded
+  const renderNotificationComponents = () => {
+    if (Platform.OS === 'web' || !services.NotificationBanner || !services.NotificationPermission) {
+      return null;
+    }
+
+    const { NotificationBanner, NotificationPermission } = services;
+    
+    return (
+      <>
+        {/* Notification Permission Prompt */}
+        {showPermissionPrompt && (
+          <NotificationPermission onPermissionChange={handlePermissionChange} />
+        )}
+        
+        {/* In-app Notification Banner */}
+        <NotificationBanner
+          notification={notification}
+          onPress={handleNotificationBannerPress}
+          onDismiss={() => setNotification(null)}
+        />
+      </>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Main App Navigator */}
-      <AppNavigator />
+      {/* Use the platform-specific navigator */}
+      <Navigator />
       
-      {/* Notification Permission Prompt */}
-      {showPermissionPrompt && (
-        <NotificationPermission onPermissionChange={handlePermissionChange} />
-      )}
-      
-      {/* In-app Notification Banner */}
-      <NotificationBanner
-        notification={notification}
-        onPress={handleNotificationBannerPress}
-        onDismiss={() => setNotification(null)}
-      />
+      {/* Render notification components conditionally */}
+      {renderNotificationComponents()}
     </SafeAreaView>
   );
 }
