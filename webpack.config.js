@@ -58,7 +58,8 @@ module.exports = {
   entry: './index.web.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js', // Use content hash to avoid conflicts
+    chunkFilename: '[name].[contenthash].chunk.js', // Name chunks with content hash
     publicPath: '/',
   },
   // Set stats configuration to handle child compiler errors
@@ -142,6 +143,8 @@ module.exports = {
       filename: 'index.html',
       minify: false, // Disable minification to avoid child compilation issues
       inject: true,
+      // Update script references
+      scriptLoading: 'blocking',
     }),
     new CopyPlugin({
       patterns: [
@@ -193,14 +196,25 @@ module.exports = {
   },
   // Optimize for production builds
   optimization: {
+    runtimeChunk: 'single', // Create a single runtime chunk
     minimize: true,
-    minimizer: [
-      // We're not specifying explicit minimizers here to use webpack defaults
-      // This helps avoid issues with child compilations
-    ],
     splitChunks: {
       chunks: 'all',
-      name: false,
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // Get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `vendor.${packageName.replace('@', '')}`;
+          },
+        },
+      },
     },
   },
   // Handle node_modules specially

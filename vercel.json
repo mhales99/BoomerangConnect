@@ -11,8 +11,40 @@
   ],
   "routes": [
     {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/asset-manifest.json",
+      "dest": "/asset-manifest.json"
+    },
+    {
+      "src": "/(.*)\\.js",
+      "dest": "/$1.js"
+    },
+    {
+      "src": "/(.*)\\.png",
+      "dest": "/$1.png"
+    },
+    {
+      "src": "/(.*)\\.jpg",
+      "dest": "/$1.jpg"
+    },
+    {
+      "src": "/(.*)\\.svg",
+      "dest": "/$1.svg"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.html"
     }
   ]
 }
