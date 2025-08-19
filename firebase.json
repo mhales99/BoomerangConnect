@@ -1,0 +1,6 @@
+{
+  "react-native": {
+    "android_package_name": "com.boomerangconnect",
+    "ios_bundle_id": "com.boomerangconnect"
+  }
+}
