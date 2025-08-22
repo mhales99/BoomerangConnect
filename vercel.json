@@ -3,9 +3,5 @@
   "outputDirectory": "apps/web/.next",
   "framework": "nextjs",
   "installCommand": "npm install --legacy-peer-deps",
-  "functions": {
-    "apps/web/.next/server/**/*.js": {
-      "maxDuration": 30
-    }
-  }
+  "rootDirectory": "apps/web"
 }
