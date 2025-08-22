@@ -1,160 +1,97 @@
-# BoomerangConnect
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-A cross-platform healthcare provider connection app built with Next.js (web) and React Native (mobile) in a modern monorepo architecture.
+# Getting Started
 
-## 🚀 Latest Deployment
-**Deployment Timestamp**: 2025-08-21 16:55:00 UTC
-**Status**: Optimized Next.js build with Firebase authentication
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## 🏗️ Project Structure
+## Step 1: Start Metro
 
-This is a monorepo containing:
+First, you will need to run **Metro**, the JavaScript build tool for React Native.
 
-- **`apps/web`**: Next.js 14 web application with React Native Web
-- **`apps/mobile`**: Expo React Native mobile app
-- **`packages/core`**: Shared business logic, types, and Firebase configuration
-- **`packages/ui`**: Shared UI components that work on both web and mobile
+To start the Metro dev server, run the following command from the root of your React Native project:
 
-## 🛠️ Tech Stack
+```sh
+# Using npm
+npm start
 
-### Web Application
-- **Framework**: Next.js 14 with React Native Web
-- **Styling**: React Native StyleSheet (cross-platform)
-- **Deployment**: Vercel
-- **Authentication**: Firebase Auth
-- **Database**: Firestore
-- **Analytics**: Firebase Analytics
-
-### Mobile Application
-- **Framework**: React Native 0.81.0 with Expo
-- **Navigation**: Expo Router
-- **Deployment**: Expo (iOS/Android)
-- **Authentication**: Firebase Auth
-- **Database**: Firestore
-- **Push Notifications**: Firebase Cloud Messaging
-
-### Shared Infrastructure
-- **Monorepo**: npm workspaces
-- **TypeScript**: Full type safety across platforms
-- **Firebase**: Unified backend services
-- **UI Components**: Shared design system
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Expo CLI (for mobile development)
-
-### Installation
-```bash
-# Install dependencies
-npm install --legacy-peer-deps
-
-# Start development servers
-npm run dev          # Both web and mobile
-npm run dev:web      # Web only
-npm run dev:mobile   # Mobile only
+# OR using Yarn
+yarn start
 ```
 
-### Environment Setup
-1. Copy `apps/web/.env.example` to `apps/web/.env.local`
-2. Add your Firebase configuration values
-3. Start the development server
+## Step 2: Build and run your app
 
-## 🌐 Web Application
+With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-The web app is built with Next.js 14 and includes:
-- Firebase Authentication
-- Responsive design with React Native Web
-- Optimized bundle size
-- Server-side rendering
-- Shared UI components
+### Android
 
-## 📱 Mobile Application
+```sh
+# Using npm
+npm run android
 
-The mobile app is built with Expo and includes:
-- Cross-platform compatibility (iOS/Android)
-- Expo Router for navigation
-- Firebase integration
-- Push notifications
-- Shared UI components
-
-## 🔧 Development
-
-### Available Scripts
-- `npm run dev` - Start both web and mobile development servers
-- `npm run dev:web` - Start web development server only
-- `npm run dev:mobile` - Start mobile development server only
-- `npm run build` - Build the web application
-- `npm run lint` - Run ESLint
-
-### Monorepo Commands
-- `npm run dev -w apps/web` - Start web app from root
-- `npm run dev -w apps/mobile` - Start mobile app from root
-
-## 🚀 Deployment
-
-### Web (Vercel)
-The web application is automatically deployed to Vercel on push to main branch.
-
-### Mobile (Expo)
-```bash
-# Build for production
-cd apps/mobile
-expo build:android
-expo build:ios
+# OR using Yarn
+yarn android
 ```
 
-## 📦 Packages
+### iOS
 
-### @boomerang/core
-Shared business logic, types, and utilities including:
-- Firebase configuration
-- Authentication services
-- Type definitions
-- Utility functions
+For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-### @boomerang/ui
-Reusable UI components that work on both web and mobile:
-- Button, Text, Card components
-- Form inputs
-- Layout components
-- Cross-platform styling
+The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
 
-## 🔐 Authentication
+```sh
+bundle install
+```
 
-Firebase Authentication is used for user management across both platforms with:
-- Email/password authentication
-- User profile management
-- Secure session handling
+Then, and every time you update your native dependencies, run:
 
-## 📊 Analytics
+```sh
+bundle exec pod install
+```
 
-Google Analytics 4 and Firebase Analytics are integrated for data collection and insights.
+For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
-## 🎯 Key Features
+```sh
+# Using npm
+npm run ios
 
-- **Cross-platform UI**: Shared components work on web and mobile
-- **Type Safety**: Full TypeScript support across the stack
-- **Performance**: Optimized bundle sizes and fast loading
-- **Scalability**: Monorepo architecture for easy maintenance
-- **Modern Stack**: Latest Next.js and React Native versions
+# OR using Yarn
+yarn ios
+```
 
-## 🤝 Contributing
+If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test on both web and mobile
-5. Submit a pull request
+This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
-## 📄 License
+## Step 3: Modify your app
 
-This project is proprietary software.
+Now that you have successfully run the app, let's make changes!
 
-## 🔗 Links
+Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 
-- **Web App**: [Deployed on Vercel]
-- **Mobile App**: [Available on App Store/Google Play]
-- **Documentation**: [Internal docs]
+When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+
+- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
+- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+
+## Congratulations! :tada:
+
+You've successfully run and modified your React Native App. :partying_face:
+
+### Now what?
+
+- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+
+# Troubleshooting
+
+If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+
+# Learn More
+
+To learn more about React Native, take a look at the following resources:
+
+- [React Native Website](https://reactnative.dev) - learn more about React Native.
+- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
+- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
+- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
+- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.

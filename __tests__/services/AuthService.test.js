@@ -139,3 +139,5 @@ describe('AuthService', () => {
     await expect(AuthService.signIn(email, password)).rejects.toThrow(errorMessage);
   });
 });
+
+

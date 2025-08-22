@@ -60,3 +60,4 @@ describe('HomeScreen', () => {
     expect(getByText('BoomerangConnect')).toBeTruthy();
   });
 });
+

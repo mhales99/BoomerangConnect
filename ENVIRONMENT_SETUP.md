@@ -59,3 +59,7 @@ When deploying to Vercel, add all environment variables in the Vercel project se
 ## Local Development
 
 For local development, the `.env` file will be automatically loaded by the application. If you're using a different environment setup, make sure to provide these variables through your environment.
+
+
+
+

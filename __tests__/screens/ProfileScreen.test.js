@@ -35,3 +35,4 @@ describe('ProfileScreen', () => {
   // - Test that profile actions (edit, logout, etc.) work correctly
   // - Test loading states and error handling
 });
+

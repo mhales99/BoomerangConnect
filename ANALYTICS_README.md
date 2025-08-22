@@ -279,3 +279,6 @@ For questions about the analytics and monetization system:
 ## Legal
 
 This system is designed to comply with all applicable data protection laws. Users must provide explicit consent before any data collection occurs. All data is processed in accordance with our Privacy Policy and Terms of Service.
+
+
+

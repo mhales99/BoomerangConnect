@@ -74,3 +74,6 @@ describe('AppNavigator', () => {
   // These tests would require more complex mocking and are beyond
   // the scope of this basic test setup
 });
+
+
+

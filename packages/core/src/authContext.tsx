@@ -14,8 +14,10 @@ interface AuthContextType {
   user: User | null;
   userProfile: UserProfile | null;
   loading: boolean;
-  signUp: (data: any) => Promise<UserProfile>;
-  signIn: (data: any) => Promise<UserProfile>;
+  signUp: (email: string, password: string, displayName?: string) => Promise<User>;
+  signIn: (email: string, password: string) => Promise<User>;
+  signInWithGoogle: () => Promise<User>;
+  signInWithApple: () => Promise<User>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
@@ -54,16 +56,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const signUp = async (data: any): Promise<UserProfile> => {
-    const profile = await AuthService.signUp(data);
-    setUserProfile(profile);
-    return profile;
+  const signUp = async (email: string, password: string, displayName?: string): Promise<User> => {
+    console.log('AuthContext: signUp called with:', { email, hasPassword: !!password, displayName });
+    const user = await AuthService.signUp(email, password, displayName);
+    console.log('AuthContext: signUp successful:', user.email);
+    return user;
   };
 
-  const signIn = async (data: any): Promise<UserProfile> => {
-    const profile = await AuthService.signIn(data);
-    setUserProfile(profile);
-    return profile;
+  const signIn = async (email: string, password: string): Promise<User> => {
+    console.log('AuthContext: signIn called with:', { email, hasPassword: !!password });
+    const user = await AuthService.signIn(email, password);
+    console.log('AuthContext: signIn successful:', user.email);
+    return user;
+  };
+
+  const signInWithGoogle = async (): Promise<User> => {
+    const user = await AuthService.signInWithGoogle();
+    return user;
+  };
+
+  const signInWithApple = async (): Promise<User> => {
+    const user = await AuthService.signInWithApple();
+    return user;
   };
 
   const signOut = async (): Promise<void> => {
@@ -96,6 +110,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loading,
     signUp,
     signIn,
+    signInWithGoogle,
+    signInWithApple,
     signOut,
     resetPassword,
     updateProfile,

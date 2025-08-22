@@ -34,3 +34,4 @@ export const mockAuthState = (isAuthenticated = false) => {
 
 // Helper to wait for promises to resolve
 export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+

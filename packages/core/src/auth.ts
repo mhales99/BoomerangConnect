@@ -1,132 +1,173 @@
 /**
  * Authentication Service
- * Handles user authentication with Firebase
+ * Handles Firebase authentication operations
  */
 
-import { 
+import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
+  signOut as firebaseSignOut,
   sendPasswordResetEmail,
-  updateProfile,
+  onAuthStateChanged,
   User,
-  UserCredential,
-  AuthError
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  OAuthProvider,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
 export interface UserProfile {
   uid: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  dateOfBirth: string;
+  displayName?: string;
+  photoURL?: string;
+  phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
-  trustPoints: number;
-  isProvider: boolean;
+  provider?: string; // 'email', 'google', 'apple'
+  
+  // Practitioner-specific fields
+  role?: 'practitioner' | 'admin';
+  region?: string;
+  clinic?: string;
+  specialties?: string[];
+  acceptingReferrals?: boolean;
+  trustedSourcesOnly?: boolean;
+  autoBook?: boolean;
+  bookingUrl?: string;
+  onboardingComplete?: boolean;
+  onboardingStep?: number;
+  
+  // Trust Points system
+  trustPoints?: number;
+  connectionsCount?: number;
+  
+  // Legacy fields (kept for backward compatibility)
+  practiceName?: string;
+  specialty?: string;
+  licenseNumber?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  onboardingCompleted?: boolean;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  isProvider?: boolean;
   providerId?: string;
-}
-
-export interface SignUpData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  dateOfBirth: string;
-}
-
-export interface SignInData {
-  email: string;
-  password: string;
 }
 
 export class AuthService {
   /**
-   * Sign up a new user
+   * Sign up with email and password
    */
-  static async signUp(data: SignUpData): Promise<UserProfile> {
+  static async signUp(email: string, password: string, displayName?: string): Promise<User> {
     try {
-      // Create user with Firebase Auth
-      const userCredential: UserCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-
+      console.log('AuthService: signUp called with:', { email, hasPassword: !!password, displayName });
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      console.log('AuthService: Firebase signUp successful:', user.email);
 
-      // Update display name
-      await updateProfile(user, {
-        displayName: `${data.firstName} ${data.lastName}`
-      });
+      // Create user profile
+      if (user) {
+        console.log('AuthService: Creating user profile...');
+        await this.createUserProfile(user, { displayName, provider: 'email' });
+        console.log('AuthService: User profile created successfully');
+      }
 
-      // Create user profile in Firestore
-      const userProfile: UserProfile = {
-        uid: user.uid,
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phone: data.phone,
-        dateOfBirth: data.dateOfBirth,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        trustPoints: 0,
-        isProvider: false,
-      };
-
-      await setDoc(doc(db, 'users', user.uid), userProfile);
-
-      return userProfile;
-    } catch (error) {
-      console.error('Sign up error:', error);
-      throw this.handleAuthError(error as AuthError);
+      return user;
+    } catch (error: any) {
+      console.error('AuthService: signUp error:', error);
+      throw this.handleAuthError(error);
     }
   }
 
   /**
-   * Sign in existing user
+   * Sign in with email and password
    */
-  static async signIn(data: SignInData): Promise<UserProfile> {
+  static async signIn(email: string, password: string): Promise<User> {
     try {
-      const userCredential: UserCredential = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-
+      console.log('AuthService: signIn called with:', { email, hasPassword: !!password });
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      return await this.getUserProfile(user.uid);
-    } catch (error) {
-      console.error('Sign in error:', error);
-      throw this.handleAuthError(error as AuthError);
+      console.log('AuthService: signIn successful:', user.email);
+      return user;
+    } catch (error: any) {
+      console.error('AuthService: signIn error:', error);
+      throw this.handleAuthError(error);
     }
   }
 
   /**
-   * Sign out current user
+   * Sign in with Google
+   */
+  static async signInWithGoogle(): Promise<User> {
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope('email');
+      provider.addScope('profile');
+
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Create or update user profile
+      if (user) {
+        await this.createUserProfile(user, { provider: 'google' });
+      }
+
+      return user;
+    } catch (error: any) {
+      throw this.handleAuthError(error);
+    }
+  }
+
+  /**
+   * Sign in with Apple
+   */
+  static async signInWithApple(): Promise<User> {
+    try {
+      const provider = new OAuthProvider('apple.com');
+      provider.addScope('email');
+      provider.addScope('name');
+
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Create or update user profile
+      if (user) {
+        await this.createUserProfile(user, { provider: 'apple' });
+      }
+
+      return user;
+    } catch (error: any) {
+      throw this.handleAuthError(error);
+    }
+  }
+
+  /**
+   * Sign out
    */
   static async signOut(): Promise<void> {
     try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Sign out error:', error);
-      throw this.handleAuthError(error as AuthError);
+      await firebaseSignOut(auth);
+    } catch (error: any) {
+      throw this.handleAuthError(error);
     }
   }
 
   /**
-   * Send password reset email
+   * Reset password
    */
   static async resetPassword(email: string): Promise<void> {
     try {
       await sendPasswordResetEmail(auth, email);
-    } catch (error) {
-      console.error('Password reset error:', error);
-      throw this.handleAuthError(error as AuthError);
+    } catch (error: any) {
+      throw this.handleAuthError(error);
     }
   }
 
@@ -136,25 +177,22 @@ export class AuthService {
   static async getCurrentUserProfile(): Promise<UserProfile | null> {
     const user = auth.currentUser;
     if (!user) return null;
-    
-    return await this.getUserProfile(user.uid);
+
+    return this.getUserProfile(user.uid);
   }
 
   /**
    * Get user profile by UID
    */
-  static async getUserProfile(uid: string): Promise<UserProfile> {
+  static async getUserProfile(uid: string): Promise<UserProfile | null> {
     try {
       const userDoc = await getDoc(doc(db, 'users', uid));
-      
-      if (!userDoc.exists()) {
-        throw new Error('User profile not found');
+      if (userDoc.exists()) {
+        return userDoc.data() as UserProfile;
       }
-
-      return userDoc.data() as UserProfile;
-    } catch (error) {
-      console.error('Get user profile error:', error);
-      throw error;
+      return null;
+    } catch (error: any) {
+      throw this.handleAuthError(error);
     }
   }
 
@@ -164,39 +202,81 @@ export class AuthService {
   static async updateUserProfile(uid: string, updates: Partial<UserProfile>): Promise<void> {
     try {
       const userRef = doc(db, 'users', uid);
-      await setDoc(userRef, {
+      await updateDoc(userRef, {
         ...updates,
         updatedAt: new Date(),
-      }, { merge: true });
-    } catch (error) {
-      console.error('Update user profile error:', error);
-      throw error;
+      });
+    } catch (error: any) {
+      throw this.handleAuthError(error);
     }
   }
 
   /**
-   * Handle Firebase Auth errors
+   * Create user profile
    */
-  private static handleAuthError(error: AuthError): Error {
-    switch (error.code) {
-      case 'auth/email-already-in-use':
-        return new Error('An account with this email already exists');
-      case 'auth/invalid-email':
-        return new Error('Please enter a valid email address');
-      case 'auth/weak-password':
-        return new Error('Password should be at least 6 characters');
-      case 'auth/user-not-found':
-        return new Error('No account found with this email');
-      case 'auth/wrong-password':
-        return new Error('Incorrect password');
-      case 'auth/too-many-requests':
-        return new Error('Too many failed attempts. Please try again later');
-      case 'auth/network-request-failed':
-        return new Error('Network error. Please check your connection');
-      default:
-        return new Error('Authentication failed. Please try again');
+  private static async createUserProfile(user: User, additionalData: Partial<UserProfile> = {}): Promise<void> {
+    try {
+      const userProfile: UserProfile = {
+        uid: user.uid,
+        email: user.email || '',
+        displayName: user.displayName || additionalData.displayName,
+        photoURL: user.photoURL || undefined,
+        phoneNumber: user.phoneNumber || undefined,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        provider: additionalData.provider || 'email',
+        trustPoints: 0,
+        connectionsCount: 0,
+        onboardingComplete: false,
+        onboardingStep: 0,
+      };
+
+      await setDoc(doc(db, 'users', user.uid), userProfile);
+    } catch (error: any) {
+      throw this.handleAuthError(error);
     }
+  }
+
+  /**
+   * Handle authentication errors
+   */
+  private static handleAuthError(error: any): Error {
+    let message = 'An error occurred during authentication';
+
+    switch (error.code) {
+      case 'auth/user-not-found':
+        message = 'No account found with this email address';
+        break;
+      case 'auth/wrong-password':
+        message = 'Incorrect password';
+        break;
+      case 'auth/email-already-in-use':
+        message = 'An account with this email already exists';
+        break;
+      case 'auth/weak-password':
+        message = 'Password should be at least 6 characters';
+        break;
+      case 'auth/invalid-email':
+        message = 'Invalid email address';
+        break;
+      case 'auth/popup-closed-by-user':
+        message = 'Sign-in was cancelled';
+        break;
+      case 'auth/popup-blocked':
+        message = 'Sign-in popup was blocked. Please allow popups for this site';
+        break;
+      case 'auth/account-exists-with-different-credential':
+        message = 'An account already exists with the same email but different sign-in credentials';
+        break;
+      case 'auth/operation-not-allowed':
+        message = 'This sign-in method is not enabled. Please contact support';
+        break;
+    }
+
+    return new Error(message);
   }
 }
 
-export default AuthService;
+
+
+

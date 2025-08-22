@@ -93,14 +93,11 @@ export default function WelcomePage() {
     setAuthError('');
     
     try {
-      await signUp({
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone,
-        dateOfBirth: formData.dateOfBirth,
-      });
+      await signUp(
+        formData.email,
+        formData.password,
+        `${formData.firstName} ${formData.lastName}`
+      );
       
       // User will be redirected by useEffect
     } catch (error) {
@@ -121,10 +118,7 @@ export default function WelcomePage() {
     setAuthError('');
     
     try {
-      await signIn({
-        email: formData.email,
-        password: formData.password,
-      });
+      await signIn(formData.email, formData.password);
       
       // User will be redirected by useEffect
     } catch (error) {

@@ -402,3 +402,6 @@ class DataMonetizationService {
 
 // Export singleton instance
 export default new DataMonetizationService();
+
+
+

@@ -189,3 +189,7 @@ class FirebaseService {
 // Export singleton instance
 const firebaseService = new FirebaseService();
 export default firebaseService;
+
+
+
+
