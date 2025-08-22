@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Stack, Text, Card, Button, Input } from '@boomerang/ui';
-import { colors, spacing, borderRadius, useAuth } from '@boomerang/core';
+import { useAuth } from '@boomerang/core';
 
 interface SignUpForm {
   firstName: string;
@@ -129,182 +128,200 @@ export default function WelcomePage() {
     }
   };
 
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-page flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-4"></div>
+          <p className="text-muted">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: colors.background,
-      padding: spacing.md,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <Card style={{ 
-        width: '100%', 
-        maxWidth: '500px',
-        padding: spacing.xl,
-      } as any}>
-        <Stack spacing="xl" align="center">
-          {/* Header */}
-          <Stack spacing="sm" align="center">
-            <Text variant="h1" weight="bold" color={colors.primary}>
-              BoomerangConnect
-            </Text>
-            
-            <Text variant="h3" weight="semibold" color={colors.text}>
+    <main className="min-h-screen bg-page flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-brand mb-2">BoomerangConnect</h1>
+            <h2 className="text-xl font-semibold text-ink mb-2">
               {isSignUp ? 'Create Your Account' : 'Welcome Back'}
-            </Text>
-            
-            <Text variant="body" color={colors.textSecondary} style={{ textAlign: 'center' }}>
+            </h2>
+            <p className="text-sm text-muted">
               {isSignUp 
                 ? 'Join our community of trusted healthcare providers and patients'
                 : 'Sign in to access your secure healthcare network'
               }
-            </Text>
-          </Stack>
+            </p>
+          </div>
 
           {/* Auth Error Display */}
           {authError && (
-            <div style={{
-              backgroundColor: colors.error,
-              color: colors.textInverse,
-              padding: spacing.sm,
-              borderRadius: borderRadius.sm,
-              textAlign: 'center',
-              fontSize: '14px'
-            }}>
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">
               {authError}
             </div>
           )}
 
           {/* Sign Up Form */}
           {isSignUp && (
-            <Stack spacing="md" style={{ width: '100%' }}>
-              <div style={{ display: 'flex', gap: spacing.sm }}>
-                <Input
-                  label="First Name"
-                  placeholder="Enter your first name"
-                  value={formData.firstName}
-                  onChangeText={(text) => handleInputChange('firstName', text)}
-                  error={errors.firstName}
-                />
-                <Input
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                  value={formData.lastName}
-                  onChangeText={(text) => handleInputChange('lastName', text)}
-                  error={errors.lastName}
-                />
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-ink mb-1">First Name</label>
+                  <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                      errors.firstName ? 'border-red-500' : 'border-border'
+                    } focus:border-brand focus:outline-none`}
+                    placeholder="First name"
+                  />
+                  {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-ink mb-1">Last Name</label>
+                  <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                      errors.lastName ? 'border-red-500' : 'border-border'
+                    } focus:border-brand focus:outline-none`}
+                    placeholder="Last name"
+                  />
+                  {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+                </div>
               </div>
 
-              <Input
-                label="Email Address"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChangeText={(text) => handleInputChange('email', text)}
-                error={errors.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                    errors.email ? 'border-red-500' : 'border-border'
+                  } focus:border-brand focus:outline-none`}
+                  placeholder="your@email.com"
+                />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+              </div>
 
-              <Input
-                label="Phone Number"
-                placeholder="Enter your phone number"
-                value={formData.phone}
-                onChangeText={(text) => handleInputChange('phone', text)}
-                error={errors.phone}
-                keyboardType="phone-pad"
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Password</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                    errors.password ? 'border-red-500' : 'border-border'
+                  } focus:border-brand focus:outline-none`}
+                  placeholder="••••••••"
+                />
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              </div>
 
-              <Input
-                label="Date of Birth"
-                placeholder="MM/DD/YYYY"
-                value={formData.dateOfBirth}
-                onChangeText={(text) => handleInputChange('dateOfBirth', text)}
-                error={errors.dateOfBirth}
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Confirm Password</label>
+                <input
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                    errors.confirmPassword ? 'border-red-500' : 'border-border'
+                  } focus:border-brand focus:outline-none`}
+                  placeholder="••••••••"
+                />
+                {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
+              </div>
 
-              <Input
-                label="Password"
-                placeholder="Create a secure password"
-                value={formData.password}
-                onChangeText={(text) => handleInputChange('password', text)}
-                error={errors.password}
-                secureTextEntry
-                helperText="Must be at least 8 characters"
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                    errors.phone ? 'border-red-500' : 'border-border'
+                  } focus:border-brand focus:outline-none`}
+                  placeholder="(555) 123-4567"
+                />
+                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+              </div>
 
-              <Input
-                label="Confirm Password"
-                placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChangeText={(text) => handleInputChange('confirmPassword', text)}
-                error={errors.confirmPassword}
-                secureTextEntry
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Date of Birth</label>
+                <input
+                  type="date"
+                  value={formData.dateOfBirth}
+                  onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
+                    errors.dateOfBirth ? 'border-red-500' : 'border-border'
+                  } focus:border-brand focus:outline-none`}
+                />
+                {errors.dateOfBirth && <p className="text-red-500 text-xs mt-1">{errors.dateOfBirth}</p>}
+              </div>
 
-              <Button
-                title={isLoading ? "Creating Account..." : "Create Account"}
-                onPress={handleSignUp}
-                variant="primary"
-                size="large"
-                loading={isLoading}
+              <button
+                onClick={handleSignUp}
                 disabled={isLoading}
-                style={{ marginTop: spacing.md }}
-              />
-            </Stack>
+                className="w-full bg-brand hover:bg-brand-600 disabled:bg-muted text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              >
+                {isLoading ? 'Creating Account...' : 'Create Account'}
+              </button>
+            </div>
           )}
 
           {/* Sign In Form */}
           {!isSignUp && (
-            <Stack spacing="md" style={{ width: '100%' }}>
-              <Input
-                label="Email Address"
-                placeholder="Enter your email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-page focus:border-brand focus:outline-none"
+                  placeholder="your@email.com"
+                />
+              </div>
 
-              <Input
-                label="Password"
-                placeholder="Enter your password"
-                secureTextEntry
-              />
+              <div>
+                <label className="block text-sm font-medium text-ink mb-1">Password</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-page focus:border-brand focus:outline-none"
+                  placeholder="••••••••"
+                />
+              </div>
 
-              <Button
-                title="Sign In"
-                onPress={handleSignIn}
-                variant="primary"
-                size="large"
-                style={{ marginTop: spacing.md }}
-              />
-            </Stack>
+              <button
+                onClick={handleSignIn}
+                disabled={isLoading}
+                className="w-full bg-brand hover:bg-brand-600 disabled:bg-muted text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              >
+                {isLoading ? 'Signing In...' : 'Sign In'}
+              </button>
+            </div>
           )}
 
-          {/* Toggle between Sign Up and Sign In */}
-          <Stack spacing="sm" align="center">
-            <Text variant="body" color={colors.textSecondary}>
-              {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-            </Text>
-            
-            <Button
-              title={isSignUp ? "Sign In Instead" : "Create Account"}
-              onPress={() => setIsSignUp(!isSignUp)}
-              variant="ghost"
-              size="medium"
-            />
-          </Stack>
-
-          {/* Terms and Privacy */}
-          {isSignUp && (
-            <Text variant="caption" color={colors.textTertiary} style={{ textAlign: 'center' }}>
-              By creating an account, you agree to our{' '}
-              <span style={{ color: colors.primary, cursor: 'pointer' }}>Terms of Service</span>
-              {' '}and{' '}
-              <span style={{ color: colors.primary, cursor: 'pointer' }}>Privacy Policy</span>
-            </Text>
-          )}
-        </Stack>
-      </Card>
-    </div>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-muted">
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-brand hover:text-brand-600 font-medium"
+              >
+                {isSignUp ? 'Sign In' : 'Sign Up'}
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
