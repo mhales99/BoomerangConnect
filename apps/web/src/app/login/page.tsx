@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@boomerang/core";
 import { collection, getDocs, limit, query, runTransaction, where, doc, serverTimestamp } from "firebase/firestore";
@@ -52,7 +52,7 @@ function prettyFirebaseError(e: any) {
   return "Something went wrong. Please try again.";
 }
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const sp = useSearchParams();
   const modeParam = sp.get("mode");
@@ -247,5 +247,20 @@ export default function LoginPage() {
         </ul>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-page flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-4"></div>
+          <p className="text-muted">Loading...</p>
+        </div>
+      </main>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }
