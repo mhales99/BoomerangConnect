@@ -132,34 +132,36 @@ function LoginPageContent() {
 
   if (authLoading) {
     return (
-      <main className="min-h-screen bg-page flex items-center justify-center">
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-4"></div>
-          <p className="text-muted">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-page flex">
-      <div className="mx-auto w-full max-w-md px-6 py-16">
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-3 h-10 w-10 rounded-2xl bg-brand text-white grid place-items-center font-semibold">BC</div>
-          <h1 className="text-2xl font-semibold text-ink">{title}</h1>
-          <p className="text-sm text-muted mt-1">
+        <div className="text-center mb-8">
+          <div className="mx-auto mb-4 h-12 w-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-semibold text-lg">
+            BC
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">{title}</h1>
+          <p className="text-sm text-gray-600">
             Referrals that come back to you. <span className="whitespace-nowrap">Private by default.</span>
           </p>
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
           {mode === "signup" && (
             <div className="mb-4">
-              <label className="block text-sm font-medium text-ink">Your name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Your name</label>
               <input
-                className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm text-ink placeholder-muted focus:border-brand focus:outline-none bg-page"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
                 placeholder="Taylor Chen"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
@@ -168,20 +170,20 @@ function LoginPageContent() {
           )}
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-ink">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
-              className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm text-ink placeholder-muted focus:border-brand focus:outline-none bg-page"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
               placeholder="you@clinic.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              inputMode="email"
+              type="email"
             />
           </div>
 
-          <div className="mb-2">
-            <label className="block text-sm font-medium text-ink">Password</label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
-              className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm text-ink placeholder-muted focus:border-brand focus:outline-none bg-page"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
               placeholder="••••••••"
               type="password"
               value={password}
@@ -189,62 +191,85 @@ function LoginPageContent() {
             />
           </div>
 
-          {err && <p className="mt-2 text-sm text-red-600">{err}</p>}
+          {err && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+              {err}
+            </div>
+          )}
 
           <button
             onClick={handleEmail}
             disabled={loading}
-            className="mt-4 w-full rounded-md bg-brand hover:bg-brand-600 disabled:bg-muted px-4 py-2 text-sm font-medium text-white transition-colors"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors"
           >
             {loading ? (mode === "signin" ? "Signing you in…" : "Creating your account…") : mode === "signin" ? "Continue" : "Create account"}
           </button>
 
           <div className="relative my-5">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-border" />
+              <span className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted">or</span>
+              <span className="bg-white px-2 text-gray-500">or</span>
             </div>
           </div>
 
           <button
             onClick={handleGoogle}
             disabled={loading}
-            className="w-full rounded-md border border-border px-4 py-2 text-sm font-medium text-ink hover:bg-page disabled:opacity-50 transition-colors"
+            className="w-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 rounded-lg transition-colors"
           >
             Continue with Google
           </button>
 
-          <p className="mt-4 text-center text-sm text-muted">
-            {mode === "signin" ? (
-              <>
-                New here?{" "}
-                <button className="underline" onClick={() => setMode("signup")}>
-                  Create an account
-                </button>
-              </>
-            ) : (
-              <>
-                Already have an account?{" "}
-                <button className="underline" onClick={() => setMode("signin")}>
-                  Sign in
-                </button>
-              </>
-            )}
-          </p>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              {mode === "signin" ? (
+                <>
+                  New here?{" "}
+                  <button 
+                    className="text-indigo-600 hover:text-indigo-700 font-medium" 
+                    onClick={() => setMode("signup")}
+                  >
+                    Create an account
+                  </button>
+                </>
+              ) : (
+                <>
+                  Already have an account?{" "}
+                  <button 
+                    className="text-indigo-600 hover:text-indigo-700 font-medium" 
+                    onClick={() => setMode("signin")}
+                  >
+                    Sign in
+                  </button>
+                </>
+              )}
+            </p>
+          </div>
 
-          <p className="mt-6 text-center text-xs text-muted">
-            By continuing, you agree to our Terms and Privacy Policy.
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-xs text-gray-500">
+              By continuing, you agree to our Terms and Privacy Policy.
+            </p>
+          </div>
         </div>
 
         {/* Benefit bullets */}
-        <ul className="mt-6 grid gap-2 text-sm text-muted">
-          <li>• Send a referral in under 60 seconds</li>
-          <li>• Book directly from real-time availability</li>
-          <li>• Earn rewards for growing your network</li>
-        </ul>
+        <div className="mt-6 space-y-2">
+          <div className="flex items-center text-sm text-gray-600">
+            <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-3"></div>
+            Send a referral in under 60 seconds
+          </div>
+          <div className="flex items-center text-sm text-gray-600">
+            <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-3"></div>
+            Book directly from real-time availability
+          </div>
+          <div className="flex items-center text-sm text-gray-600">
+            <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-3"></div>
+            Earn rewards for growing your network
+          </div>
+        </div>
       </div>
     </main>
   );
@@ -253,10 +278,10 @@ function LoginPageContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-page flex items-center justify-center">
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-4"></div>
-          <p className="text-muted">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </main>
     }>
