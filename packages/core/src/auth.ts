@@ -112,16 +112,38 @@ export class AuthService {
       provider.addScope('email');
       provider.addScope('profile');
 
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
+      // Use redirect for production, popup for development
+      if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+        // Redirect flow
+        await signInWithRedirect(auth, provider);
+        const result = await getRedirectResult(auth);
+        if (!result) {
+          // This will happen on the initial redirect
+          // The user will be redirected to Google and then back
+          return null as any; // This code won't be reached after redirect
+        }
+        const user = result.user;
+        
+        // Create or update user profile
+        if (user) {
+          await this.createUserProfile(user, { provider: 'google' });
+        }
+        
+        return user;
+      } else {
+        // Popup flow (for development)
+        const userCredential = await signInWithPopup(auth, provider);
+        const user = userCredential.user;
 
-      // Create or update user profile
-      if (user) {
-        await this.createUserProfile(user, { provider: 'google' });
+        // Create or update user profile
+        if (user) {
+          await this.createUserProfile(user, { provider: 'google' });
+        }
+
+        return user;
       }
-
-      return user;
     } catch (error: any) {
+      console.error('Google sign-in error:', error);
       throw this.handleAuthError(error);
     }
   }
