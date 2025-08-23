@@ -110,3 +110,4 @@ To learn more about React Native, take a look at the following resources:
 # Debug banner Sat Aug 23 12:34:37 PDT 2025
 # Fix deployment issues Sat Aug 23 13:56:25 PDT 2025
 # Fix environment check Sat Aug 23 15:51:59 PDT 2025
+# Updated Firebase setup instructions Sat Aug 23 16:42:56 PDT 2025
