@@ -7,7 +7,8 @@
 2. Select your project: `boomerang-connect-cf9a4`
 3. Navigate to **Authentication** → **Settings** → **Authorized domains**
 4. Add the following domains:
-   - `boomerangconnect.vercel.app` (or your Vercel domain)
+   - `boomerangconnect.vercel.app` (primary domain)
+   - `boomerang-connect-web.vercel.app` (default Vercel domain)
    - Any custom domain you're using
    - `localhost` (should already be there)
 

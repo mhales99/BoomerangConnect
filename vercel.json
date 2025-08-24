@@ -6,5 +6,12 @@
   "regions": ["iad1"],
   "github": {
     "silent": true
-  }
+  },
+  "redirects": [
+    {
+      "source": "https://boomerang-connect-web.vercel.app/:path*",
+      "destination": "https://boomerangconnect.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
 }
