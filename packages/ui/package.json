@@ -4,7 +4,8 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@boomerang/core": "*"
