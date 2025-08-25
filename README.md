@@ -113,3 +113,4 @@ To learn more about React Native, take a look at the following resources:
 # Updated Firebase setup instructions Sat Aug 23 16:42:56 PDT 2025
 # Force Vercel deployment with updated environment variables Sat Aug 23 17:45:39 PDT 2025
 # Force new Vercel deployment - Sun Aug 24 17:37:03 PDT 2025
+# Force new deployment with Jane-style login page - Sun Aug 24 18:05:56 PDT 2025
