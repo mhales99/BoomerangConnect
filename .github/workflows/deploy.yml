@@ -1,10 +1,8 @@
 name: Deploy to Vercel
 
+# Disabled - using Vercel's built-in deployment instead
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch: # Only run manually
 
 jobs:
   deploy:
