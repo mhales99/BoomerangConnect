@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@boomerang/core';
 
 interface SignUpForm {
   firstName: string;
@@ -16,7 +15,6 @@ interface SignUpForm {
 
 export default function WelcomePage() {
   const router = useRouter();
-  const { user, userProfile, loading, signUp, signIn } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState<SignUpForm>({
     firstName: '',
@@ -30,13 +28,6 @@ export default function WelcomePage() {
   const [errors, setErrors] = useState<Partial<SignUpForm>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState<string>('');
-
-  // Redirect if user is already authenticated
-  useEffect(() => {
-    if (!loading && user && userProfile) {
-      router.push('/dashboard');
-    }
-  }, [user, userProfile, loading, router]);
 
   const handleInputChange = (field: keyof SignUpForm, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -92,16 +83,15 @@ export default function WelcomePage() {
     setAuthError('');
     
     try {
-      await signUp(
-        formData.email,
-        formData.password,
-        `${formData.firstName} ${formData.lastName}`
-      );
+      // Simulate sign up
+      console.log('Sign up attempt:', formData);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // User will be redirected by useEffect
+      // For demo purposes, always succeed
+      router.push('/dashboard');
     } catch (error) {
       console.error('Sign up error:', error);
-      setAuthError(error instanceof Error ? error.message : 'Failed to create account');
+      setAuthError('Failed to create account');
     } finally {
       setIsLoading(false);
     }
@@ -117,38 +107,30 @@ export default function WelcomePage() {
     setAuthError('');
     
     try {
-      await signIn(formData.email, formData.password);
+      // Simulate sign in
+      console.log('Sign in attempt:', { email: formData.email, password: formData.password });
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // User will be redirected by useEffect
+      // For demo purposes, always succeed
+      router.push('/dashboard');
     } catch (error) {
       console.error('Sign in error:', error);
-      setAuthError(error instanceof Error ? error.message : 'Failed to sign in');
+      setAuthError('Failed to sign in');
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-page flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-4"></div>
-          <p className="text-muted">Loading...</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-page flex items-center justify-center p-4">
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-brand mb-2">BoomerangConnect</h1>
-            <h2 className="text-xl font-semibold text-ink mb-2">
+            <h1 className="text-3xl font-bold text-blue-600 mb-2">BoomerangConnect</h1>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
               {isSignUp ? 'Create Your Account' : 'Welcome Back'}
             </h2>
-            <p className="text-sm text-muted">
+            <p className="text-sm text-gray-600">
               {isSignUp 
                 ? 'Join our community of trusted healthcare providers and patients'
                 : 'Sign in to access your secure healthcare network'
@@ -168,27 +150,27 @@ export default function WelcomePage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-1">First Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                   <input
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                      errors.firstName ? 'border-red-500' : 'border-border'
-                    } focus:border-brand focus:outline-none`}
+                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                      errors.firstName ? 'border-red-500' : 'border-gray-300'
+                    } focus:border-blue-500 focus:outline-none`}
                     placeholder="First name"
                   />
                   {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-1">Last Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
                   <input
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                      errors.lastName ? 'border-red-500' : 'border-border'
-                    } focus:border-brand focus:outline-none`}
+                    className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                      errors.lastName ? 'border-red-500' : 'border-gray-300'
+                    } focus:border-blue-500 focus:outline-none`}
                     placeholder="Last name"
                   />
                   {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
@@ -196,70 +178,70 @@ export default function WelcomePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                    errors.email ? 'border-red-500' : 'border-border'
-                  } focus:border-brand focus:outline-none`}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 focus:outline-none`}
                   placeholder="your@email.com"
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                    errors.password ? 'border-red-500' : 'border-border'
-                  } focus:border-brand focus:outline-none`}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                    errors.password ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 focus:outline-none`}
                   placeholder="••••••••"
                 />
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Confirm Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
                 <input
                   type="password"
                   value={formData.confirmPassword}
                   onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                    errors.confirmPassword ? 'border-red-500' : 'border-border'
-                  } focus:border-brand focus:outline-none`}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                    errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 focus:outline-none`}
                   placeholder="••••••••"
                 />
                 {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Phone Number</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                    errors.phone ? 'border-red-500' : 'border-border'
-                  } focus:border-brand focus:outline-none`}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                    errors.phone ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 focus:outline-none`}
                   placeholder="(555) 123-4567"
                 />
                 {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Date of Birth</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
                 <input
                   type="date"
                   value={formData.dateOfBirth}
                   onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-page ${
-                    errors.dateOfBirth ? 'border-red-500' : 'border-border'
-                  } focus:border-brand focus:outline-none`}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm bg-white ${
+                    errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'
+                  } focus:border-blue-500 focus:outline-none`}
                 />
                 {errors.dateOfBirth && <p className="text-red-500 text-xs mt-1">{errors.dateOfBirth}</p>}
               </div>
@@ -267,7 +249,7 @@ export default function WelcomePage() {
               <button
                 onClick={handleSignUp}
                 disabled={isLoading}
-                className="w-full bg-brand hover:bg-brand-600 disabled:bg-muted text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-lg transition-colors"
               >
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
@@ -278,23 +260,23 @@ export default function WelcomePage() {
           {!isSignUp && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-page focus:border-brand focus:outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:border-blue-500 focus:outline-none"
                   placeholder="your@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-ink mb-1">Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-page focus:border-brand focus:outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:border-blue-500 focus:outline-none"
                   placeholder="••••••••"
                 />
               </div>
@@ -302,7 +284,7 @@ export default function WelcomePage() {
               <button
                 onClick={handleSignIn}
                 disabled={isLoading}
-                className="w-full bg-brand hover:bg-brand-600 disabled:bg-muted text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-lg transition-colors"
               >
                 {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
@@ -310,11 +292,11 @@ export default function WelcomePage() {
           )}
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-muted">
+            <p className="text-sm text-gray-600">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="text-brand hover:text-brand-600 font-medium"
+                className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 {isSignUp ? 'Sign In' : 'Sign Up'}
               </button>
