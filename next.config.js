@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['react-native', 'react-native-web', '@boomerang/ui', '@boomerang/core'],
+  transpilePackages: [],
   compiler: {
     styledComponents: true,
     // Remove console logs in production
@@ -26,7 +26,6 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      'react-native$': 'react-native-web',
     };
     
     // Add support for .web.js extension
