@@ -10,7 +10,8 @@
     "dev:web": "npm run dev -w apps/web",
     "dev:mobile": "npm run start -w apps/mobile",
     "build": "npm run build -w apps/web",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
