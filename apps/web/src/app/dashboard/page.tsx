@@ -687,3 +687,76 @@ export default function DashboardPage() {
     </main>
   );
 }
+        {/* Professional Wallet Tab */}
+        {tab === "wallet" && (
+          <section style={{
+            background: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(20px)",
+            borderRadius: "20px",
+            padding: "24px",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.2)"
+          }}>
+            <h2 style={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "#111827",
+              marginBottom: "8px"
+            }}>💼 Professional Wallet</h2>
+            <p style={{
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "24px"
+            }}>Your Secure Digital Credential Vault</p>
+            
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+              <div style={{
+                background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                borderRadius: "16px",
+                padding: "20px",
+                color: "white",
+                boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)"
+              }}>
+                <div style={{ fontSize: "24px", marginBottom: "8px" }}>📋</div>
+                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Licenses</h3>
+                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>2 Active</p>
+              </div>
+              
+              <div style={{
+                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                borderRadius: "16px",
+                padding: "20px",
+                color: "white",
+                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)"
+              }}>
+                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🎓</div>
+                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Education</h3>
+                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>3 Credentials</p>
+              </div>
+              
+              <div style={{
+                background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                borderRadius: "16px",
+                padding: "20px",
+                color: "white",
+                boxShadow: "0 4px 12px rgba(245, 158, 11, 0.3)"
+              }}>
+                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🛡️</div>
+                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Insurance</h3>
+                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>1 Policy</p>
+              </div>
+              
+              <div style={{
+                background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+                borderRadius: "16px",
+                padding: "20px",
+                color: "white",
+                boxShadow: "0 4px 12px rgba(139, 92, 246, 0.3)"
+              }}>
+                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🏆</div>
+                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Certifications</h3>
+                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>5 Verified</p>
+              </div>
+            </div>
+          </section>
+        )}
