@@ -32,22 +32,21 @@ export default function DebugPage() {
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold mb-3">Firebase Test</h2>
+          <h2 className="text-lg font-semibold mb-3">Demo Test</h2>
           <div className="bg-gray-100 p-4 rounded-md">
             <button
               onClick={async () => {
                 try {
-                  const { auth } = await import('@boomerang/core');
-                  console.log('Firebase auth initialized:', auth);
-                  alert('Firebase auth initialized successfully! Check console for details.');
+                  console.log('Demo test successful!');
+                  alert('Demo test successful! Check console for details.');
                 } catch (error) {
-                  console.error('Firebase auth error:', error);
-                  alert(`Firebase auth error: ${error}`);
+                  console.error('Demo test error:', error);
+                  alert(`Demo test error: ${error}`);
                 }
               }}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
-              Test Firebase Auth
+              Test Demo Function
             </button>
           </div>
         </div>

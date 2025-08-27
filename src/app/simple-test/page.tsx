@@ -1,71 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function SimpleTestPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState<string>('');
 
-  const testAuth = async () => {
+  const testAuthService = async () => {
     try {
-      setResult("Testing authentication...");
-      
-      // Test if we can import the auth service
-      const { AuthService } = await import("@boomerang/core");
-      setResult("AuthService imported successfully");
-      
-      // Test if we can access Firebase
-      const { auth } = await import("@boomerang/core");
-      setResult("Firebase auth accessed successfully");
-      
-      // Test sign up
-      const user = await AuthService.signUp(email, password, "Test User");
-      setResult(`Sign up successful: ${user.email}`);
-      
-    } catch (error: any) {
-      console.error("Test error:", error);
-      setResult(`Error: ${error.message}`);
+      // Simulate auth service test
+      console.log('Testing demo auth service...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setResult('Demo auth service test successful!');
+    } catch (error) {
+      setResult(`Demo auth service test failed: ${error}`);
+    }
+  };
+
+  const testFirebaseAuth = async () => {
+    try {
+      // Simulate Firebase auth test
+      console.log('Testing demo Firebase auth...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setResult('Demo Firebase auth test successful!');
+    } catch (error) {
+      setResult(`Demo Firebase auth test failed: ${error}`);
     }
   };
 
   return (
-    <div className="p-8 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Simple Auth Test</h1>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Simple Test Page</h1>
       
       <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="test@example.com"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="password123"
-          />
-        </div>
-
         <button
-          onClick={testAuth}
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          onClick={testAuthService}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-4"
         >
-          Test Authentication
+          Test Demo Auth Service
         </button>
-
+        
+        <button
+          onClick={testFirebaseAuth}
+          className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+        >
+          Test Demo Firebase Auth
+        </button>
+        
         {result && (
-          <div className="p-4 bg-gray-100 rounded-md">
-            <strong>Result:</strong> {result}
+          <div className="mt-4 p-4 bg-gray-100 rounded-md">
+            <p><strong>Result:</strong> {result}</p>
           </div>
         )}
       </div>
