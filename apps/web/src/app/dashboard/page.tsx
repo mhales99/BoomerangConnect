@@ -5,18 +5,8 @@ import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
 
 export default function DashboardPage() {
-  const [tab, setTab] = useState<"overview" | "referrals" | "network" | "plans" | "settings" | "wallet">('overview');
+  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
 
-
-  // Get personalized greeting based on time of day
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
-  };
-
-  const greeting = getGreeting();
   return (
     <main style={{
       minHeight: '100vh',
@@ -76,11 +66,11 @@ export default function DashboardPage() {
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
             }}>BC</div>
-            <div><h1 style={{
+            <h1 style={{
               fontSize: '18px',
               fontWeight: '600',
               color: '#111827'
-            }}>Dashboard</h1><p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p></div>
+            }}>Dashboard</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -112,9 +102,7 @@ export default function DashboardPage() {
             ['overview', 'Overview'],
             ['referrals', 'Referrals'],
             ['network', 'Network'],
-            ["plans", "Plans"],
-            ["settings", "Settings"],
-            ["wallet", "Wallet"],
+            ['plans', 'Plans'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -293,7 +281,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>✨ Show off your expertise and build trust with your network!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Complete your profile to help colleagues refer with confidence.</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
@@ -308,7 +296,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>🚀 Grow your referral network and start connecting with amazing colleagues!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Invite your circle to start sending and receiving referrals.</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                   <div style={{
@@ -323,7 +311,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>📅 Sync your schedule and make booking seamless for everyone!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Connect your calendar to enable direct booking.</p>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
@@ -687,76 +675,3 @@ export default function DashboardPage() {
     </main>
   );
 }
-        {/* Professional Wallet Tab */}
-        {tab === "wallet" && (
-          <section style={{
-            background: "rgba(255, 255, 255, 0.9)",
-            backdropFilter: "blur(20px)",
-            borderRadius: "20px",
-            padding: "24px",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-            border: "1px solid rgba(255, 255, 255, 0.2)"
-          }}>
-            <h2 style={{
-              fontSize: "24px",
-              fontWeight: "700",
-              color: "#111827",
-              marginBottom: "8px"
-            }}>💼 Professional Wallet</h2>
-            <p style={{
-              fontSize: "16px",
-              color: "#6b7280",
-              marginBottom: "24px"
-            }}>Your Secure Digital Credential Vault</p>
-            
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
-              <div style={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                borderRadius: "16px",
-                padding: "20px",
-                color: "white",
-                boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)"
-              }}>
-                <div style={{ fontSize: "24px", marginBottom: "8px" }}>📋</div>
-                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Licenses</h3>
-                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>2 Active</p>
-              </div>
-              
-              <div style={{
-                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                borderRadius: "16px",
-                padding: "20px",
-                color: "white",
-                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)"
-              }}>
-                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🎓</div>
-                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Education</h3>
-                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>3 Credentials</p>
-              </div>
-              
-              <div style={{
-                background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-                borderRadius: "16px",
-                padding: "20px",
-                color: "white",
-                boxShadow: "0 4px 12px rgba(245, 158, 11, 0.3)"
-              }}>
-                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🛡️</div>
-                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Insurance</h3>
-                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>1 Policy</p>
-              </div>
-              
-              <div style={{
-                background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
-                borderRadius: "16px",
-                padding: "20px",
-                color: "white",
-                boxShadow: "0 4px 12px rgba(139, 92, 246, 0.3)"
-              }}>
-                <div style={{ fontSize: "24px", marginBottom: "8px" }}>🏆</div>
-                <h3 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>Certifications</h3>
-                <p style={{ fontSize: "14px", opacity: 0.9, margin: 0 }}>5 Verified</p>
-              </div>
-            </div>
-          </section>
-        )}
