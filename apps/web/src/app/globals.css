@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Jane-inspired color palette */
+  --color-brand: 99 102 241; /* Indigo-500 */
+  --color-brand-600: 79 70 229; /* Indigo-600 */
+  --color-brand-100: 224 231 255; /* Indigo-100 */
+  
+  --color-ink: 17 24 39; /* Gray-900 */
+  --color-muted: 107 114 128; /* Gray-500 */
+  --color-page: 249 250 251; /* Gray-50 */
+  --color-card: 255 255 255; /* White */
+  --color-border: 229 231 235; /* Gray-200 */
+  
+  /* Legacy variables for compatibility */
+  --foreground-rgb: 17, 24, 39;
+  --background-start-rgb: 249, 250, 251;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: 243 244 246; /* Gray-100 */
+    --color-muted: 156 163 175; /* Gray-400 */
+    --color-page: 17 24 39; /* Gray-900 */
+    --color-card: 31 41 55; /* Gray-800 */
+    --color-border: 55 65 81; /* Gray-700 */
+    
+    --foreground-rgb: 243, 244, 246;
+    --background-start-rgb: 17, 24, 39;
+    --background-end-rgb: 31, 41, 55;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
