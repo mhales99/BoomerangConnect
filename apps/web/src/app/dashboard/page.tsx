@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
 
 export default function DashboardPage() {
-  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
+  const [tab, setTab] = useState<"overview" | "referrals" | "network" | "plans" | "settings" | "wallet">('overview');
 
 
   // Get personalized greeting based on time of day
@@ -112,7 +112,9 @@ export default function DashboardPage() {
             ['overview', 'Overview'],
             ['referrals', 'Referrals'],
             ['network', 'Network'],
-            ['plans', 'Plans'],
+            ["plans", "Plans"],
+            ["settings", "Settings"],
+            ["wallet", "Wallet"],
           ] as const).map(([key, label]) => (
             <button
               key={key}
