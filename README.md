@@ -117,3 +117,4 @@ To learn more about React Native, take a look at the following resources:
 # Force Vercel deployment Sun Aug 24 18:10:02 PDT 2025
 # Vercel Deployment Trigger - Mon Aug 25 10:30:30 PDT 2025
 # Trigger Vercel deployment - Mon Aug 25 20:05:17 PDT 2025
+# Updated with Jane.app styling
