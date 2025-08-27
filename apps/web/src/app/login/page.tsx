@@ -45,7 +45,7 @@ export default function LoginPage() {
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
         }}>
-          Welcome to Boomerang
+          Welcome to Boomerang Connect
         </h1>
         
         <form onSubmit={handleSubmit}>
