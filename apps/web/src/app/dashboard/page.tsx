@@ -7,6 +7,16 @@ import ProfileCircles from '../../components/ProfileCircles';
 export default function DashboardPage() {
   const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
 
+
+  // Get personalized greeting based on time of day
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  };
+
+  const greeting = getGreeting();
   return (
     <main style={{
       minHeight: '100vh',
@@ -66,11 +76,11 @@ export default function DashboardPage() {
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
             }}>BC</div>
-            <h1 style={{
+            <div><h1 style={{
               fontSize: '18px',
               fontWeight: '600',
               color: '#111827'
-            }}>Dashboard</h1>
+            }}>Dashboard</h1><p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p></div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -281,7 +291,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Complete your profile to help colleagues refer with confidence.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>✨ Show off your expertise and build trust with your network!</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
@@ -296,7 +306,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Invite your circle to start sending and receiving referrals.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>🚀 Grow your referral network and start connecting with amazing colleagues!</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                   <div style={{
@@ -311,7 +321,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Connect your calendar to enable direct booking.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>📅 Sync your schedule and make booking seamless for everyone!</p>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
