@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
+import ProfessionalWallet from '../../components/ProfessionalWallet';
 
 export default function DashboardPage() {
-  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
+  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
 
   return (
     <main style={{
@@ -103,6 +104,7 @@ export default function DashboardPage() {
             ['referrals', 'Referrals'],
             ['network', 'Network'],
             ['plans', 'Plans'],
+            ['wallet', 'Wallet'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
