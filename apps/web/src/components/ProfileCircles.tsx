@@ -14,7 +14,7 @@ const janeColors = [
   'from-[#68D391] to-[#48BB78]',     // Green gradient
 ];
 
-// Mock data for top referrals
+// Mock data for recent referrals
 const mockReferrals = [
   { id: '1', name: 'Dr. Chen', specialty: 'Cardiology', initials: 'JC' },
   { id: '2', name: 'Dr. Patel', specialty: 'Neurology', initials: 'SP' },
@@ -26,7 +26,7 @@ const mockReferrals = [
 export default function ProfileCircles() {
   return (
     <div className="space-y-4">
-      <h3 className="font-medium">Top Referrals</h3>
+      <h3 className="font-medium">Recent Referrals</h3>
       
       <div className="flex gap-4 overflow-x-auto pb-2">
         {mockReferrals.map((referral, index) => (
