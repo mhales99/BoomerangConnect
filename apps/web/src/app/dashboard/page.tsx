@@ -3,17 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
-import ProfessionalWallet from '../../components/ProfessionalWallet';
 
 export default function DashboardPage() {
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
-  };
-  const greeting = getGreeting();
-  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
+  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
 
   return (
     <main style={{
@@ -58,7 +50,7 @@ export default function DashboardPage() {
           display: 'flex',
           maxWidth: '72rem',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           padding: '1rem 1rem'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -70,17 +62,19 @@ export default function DashboardPage() {
               color: 'white',
               display: 'grid',
               placeItems: 'center',
-              padding: '0 16px',
               fontWeight: 'bold',
-              fontSize: '24px',
+              fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}>Boomerang Connect</div>
             <h1 style={{
-              fontSize: '24px',
-              fontWeight: '600',
-              color: '#111827'
-            }}>Dashboard</h1>
-            <p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p>
+              fontSize: '28px',
+              fontWeight: 'bold',
+              background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textAlign: 'center',
+              margin: '0 auto'
+            }}>Boomerang Connect</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -113,7 +107,6 @@ export default function DashboardPage() {
             ['referrals', 'Referrals'],
             ['network', 'Network'],
             ['plans', 'Plans'],
-            ['wallet', 'Wallet'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -157,7 +150,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Referrals sent</p>
@@ -194,7 +187,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Referrals received</p>
@@ -231,7 +224,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Trust Points</p>
@@ -277,7 +270,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Getting started</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Getting started</h3>
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
@@ -292,7 +285,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>✨ Show off your expertise and build trust with your network!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Complete your profile to help colleagues refer with confidence.</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
@@ -307,7 +300,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>🚀 Grow your referral network and start connecting with amazing colleagues!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Invite your circle to start sending and receiving referrals.</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                   <div style={{
@@ -322,11 +315,11 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>📅 Sync your schedule and make booking seamless for everyone!</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Connect your calendar to enable direct booking.</p>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <Link href="/profile" style={{
+                <Link href="/onboarding/practitioner" style={{
                   borderRadius: '12px',
                   background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
                   padding: '10px 16px',
@@ -358,7 +351,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Recent activity</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Recent activity</h3>
               <div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e', marginTop: '8px' }}></div>
@@ -391,10 +384,10 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Send a referral</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Send a referral</h3>
               <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '24px' }}>Share context and preferred availability. Track outcomes automatically.</p>
               <div>
-                <Link href="/referral" style={{
+                <Link href="/referrals/send" style={{
                   display: 'inline-flex',
                   borderRadius: '12px',
                   background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
@@ -416,12 +409,12 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Your recent referrals</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '16px' }}>Your recent referrals</h3>
               <div>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)',
@@ -443,7 +436,7 @@ export default function DashboardPage() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)',
@@ -465,7 +458,7 @@ export default function DashboardPage() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)'
@@ -502,7 +495,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Your network</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Your network</h3>
               <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '24px' }}>Build a circle you trust for fast, confident handoffs.</p>
               <div>
                 <Link href="/network" style={{
@@ -526,7 +519,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Invite colleagues</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Invite colleagues</h3>
               <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '24px' }}>Earn Trust Points for each accepted invite.</p>
               <div>
                 <Link href="/network/invite" style={{
@@ -560,7 +553,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h4 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Starter</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Starter</h4>
               <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#111827', marginBottom: '4px' }}>Free</p>
               <p style={{ color: '#4b5563', marginBottom: '24px' }}>Basics to get going</p>
               <div style={{ marginBottom: '24px' }}>
@@ -611,7 +604,7 @@ export default function DashboardPage() {
                 fontWeight: '600',
                 color: 'white'
               }}>Current</div>
-              <h4 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Pro</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Pro</h4>
               <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#111827', marginBottom: '4px' }}>$29<span style={{ fontSize: '14px', color: '#4b5563' }}>/month</span></p>
               <p style={{ color: '#4b5563', marginBottom: '24px' }}>For growing practices</p>
               <div style={{ marginBottom: '24px' }}>
@@ -650,7 +643,7 @@ export default function DashboardPage() {
               padding: '24px',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}>
-              <h4 style={{ fontSize: '24px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Team</h4>
+              <h4 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Team</h4>
               <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#111827', marginBottom: '4px' }}>Custom</p>
               <p style={{ color: '#4b5563', marginBottom: '24px' }}>Clinics and groups</p>
               <div style={{ marginBottom: '24px' }}>
