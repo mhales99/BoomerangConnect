@@ -65,15 +65,11 @@ export default function DashboardPage() {
               fontWeight: 'bold',
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+            }}>Boomerang Connect</div>
             <h1 style={{
-              fontSize: '28px',
-              fontWeight: 'bold',
-              background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textAlign: 'center',
-              margin: '0 auto'
+              fontSize: '18px',
+              fontWeight: '600',
+              color: '#111827'
             }}>Boomerang Connect</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
