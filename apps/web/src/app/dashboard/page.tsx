@@ -6,13 +6,6 @@ import ProfileCircles from '../../components/ProfileCircles';
 import ProfessionalWallet from '../../components/ProfessionalWallet';
 export default function DashboardPage() {
   const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
-  };
-  const greeting = getGreeting();
 
   return (
     <main style={{
@@ -72,13 +65,12 @@ export default function DashboardPage() {
               fontWeight: 'bold',
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}>Boomerang Connect</div>
+            }}>BC</div>
             <h1 style={{
               fontSize: '18px',
               fontWeight: '600',
               color: '#111827'
-            }}>Boomerang Connect</h1>
-            <p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p>
+            }}>Dashboard</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -375,8 +367,6 @@ export default function DashboardPage() {
           </section>
         )}
 
-        {tab === 'wallet' && <ProfessionalWallet />}
-        )}
         {tab === 'referrals' && (
           <section style={{
             display: 'grid',
@@ -488,9 +478,6 @@ export default function DashboardPage() {
           </section>
         )}
 
-        {tab === 'wallet' && <ProfessionalWallet />}
-        )}
-
         {tab === 'network' && (
           <section style={{
             display: 'grid',
@@ -547,9 +534,6 @@ export default function DashboardPage() {
               </div>
             </div>
           </section>
-        )}
-
-        {tab === 'wallet' && <ProfessionalWallet />}
         )}
 
         {tab === 'plans' && (
@@ -687,9 +671,6 @@ export default function DashboardPage() {
               }}>Contact sales</button>
             </div>
           </section>
-        )}
-
-        {tab === 'wallet' && <ProfessionalWallet />}
         )}
       </div>
     </main>
