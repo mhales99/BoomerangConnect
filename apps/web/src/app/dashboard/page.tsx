@@ -6,6 +6,13 @@ import ProfileCircles from '../../components/ProfileCircles';
 import ProfessionalWallet from '../../components/ProfessionalWallet';
 export default function DashboardPage() {
   const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  };
+  const greeting = getGreeting();
 
   return (
     <main style={{
@@ -65,12 +72,13 @@ export default function DashboardPage() {
               fontWeight: 'bold',
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}>BC</div>
+            }}>Boomerang Connect</div>
             <h1 style={{
               fontSize: '18px',
               fontWeight: '600',
               color: '#111827'
-            }}>Dashboard</h1>
+            }}>Boomerang Connect</h1>
+            <p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
