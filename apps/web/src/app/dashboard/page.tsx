@@ -103,6 +103,7 @@ export default function DashboardPage() {
             ['referrals', 'Referrals'],
             ['network', 'Network'],
             ['plans', 'Plans'],
+            ['wallet', 'Wallet'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -366,6 +367,8 @@ export default function DashboardPage() {
           </section>
         )}
 
+        {tab === 'wallet' && <ProfessionalWallet />}
+        )}
         {tab === 'referrals' && (
           <section style={{
             display: 'grid',
@@ -477,6 +480,9 @@ export default function DashboardPage() {
           </section>
         )}
 
+        {tab === 'wallet' && <ProfessionalWallet />}
+        )}
+
         {tab === 'network' && (
           <section style={{
             display: 'grid',
@@ -533,6 +539,9 @@ export default function DashboardPage() {
               </div>
             </div>
           </section>
+        )}
+
+        {tab === 'wallet' && <ProfessionalWallet />}
         )}
 
         {tab === 'plans' && (
@@ -670,6 +679,9 @@ export default function DashboardPage() {
               }}>Contact sales</button>
             </div>
           </section>
+        )}
+
+        {tab === 'wallet' && <ProfessionalWallet />}
         )}
       </div>
     </main>
