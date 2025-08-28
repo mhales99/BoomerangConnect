@@ -28,16 +28,16 @@ export default function ProfileCircles() {
     <div className="space-y-4">
       <h3 className="font-medium">Recent Referrals</h3>
       
-      <div className="flex gap-4 overflow-x-auto pb-2">
+      <div className="flex gap-6 overflow-x-auto pb-2">
         {mockReferrals.map((referral, index) => (
           <Link 
             href={`/network/profile/${referral.id}`} 
             key={referral.id}
-            className="flex flex-col items-center gap-1 min-w-[72px]"
+            className="flex flex-col items-center gap-2 min-w-[72px]"
           >
             <div className={`rounded-full p-0.5 bg-gradient-to-br ${janeColors[index % janeColors.length]}`}>
               <div className="rounded-full bg-white p-0.5">
-                <div className="h-14 w-14 rounded-full bg-gray-100 grid place-items-center text-lg font-medium">
+                <div className="h-14 w-14 rounded-full bg-gray-100 grid place-items-center text-xl font-medium">
                   {referral.initials}
                 </div>
               </div>
@@ -49,7 +49,7 @@ export default function ProfileCircles() {
 
         <Link 
           href="/network" 
-          className="flex flex-col items-center gap-1 min-w-[72px]"
+          className="flex flex-col items-center gap-2 min-w-[72px]"
         >
           <div className="rounded-full p-0.5 bg-gradient-to-br from-gray-300 to-gray-400">
             <div className="rounded-full bg-white p-0.5">
