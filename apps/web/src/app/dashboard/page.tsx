@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
-
+import ProfessionalWallet from '../../components/ProfessionalWallet';
 export default function DashboardPage() {
-  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
+  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
 
   return (
     <main style={{
@@ -50,7 +50,7 @@ export default function DashboardPage() {
           display: 'flex',
           maxWidth: '72rem',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           padding: '1rem 1rem'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -65,12 +65,12 @@ export default function DashboardPage() {
               fontWeight: 'bold',
               fontSize: '18px',
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}>Boomerang Connect</div>
+            }}>BC</div>
             <h1 style={{
               fontSize: '18px',
               fontWeight: '600',
               color: '#111827'
-            }}>Boomerang Connect</h1>
+            }}>Dashboard</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -146,7 +146,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Referrals sent</p>
@@ -183,7 +183,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Referrals received</p>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 marginBottom: '16px'
               }}>
                 <p style={{ fontSize: '14px', color: '#4b5563' }}>Trust Points</p>
@@ -410,7 +410,7 @@ export default function DashboardPage() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'space-between',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)',
@@ -432,7 +432,7 @@ export default function DashboardPage() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'space-between',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)',
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'space-between',
                   padding: '12px',
                   borderRadius: '8px',
                   background: 'rgba(249, 250, 251, 0.8)'
