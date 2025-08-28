@@ -3,10 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import ProfileCircles from '../../components/ProfileCircles';
-import ProfessionalWallet from '../../components/ProfessionalWallet';
 
 export default function DashboardPage() {
-  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans' | 'wallet'>('overview');
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  };
+  const greeting = getGreeting();
+  const [tab, setTab] = useState<'overview' | 'referrals' | 'network' | 'plans'>('overview');
 
   return (
     <main style={{
@@ -72,6 +78,7 @@ export default function DashboardPage() {
               fontWeight: '600',
               color: '#111827'
             }}>Dashboard</h1>
+            <p style={{fontSize: "14px", color: "#6b7280", margin: 0}}>{greeting} Mike! 👋</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Link href="/login" style={{
@@ -104,7 +111,6 @@ export default function DashboardPage() {
             ['referrals', 'Referrals'],
             ['network', 'Network'],
             ['plans', 'Plans'],
-            ['wallet', 'Wallet'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -283,7 +289,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Complete your profile to help colleagues refer with confidence.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>✨ Show off your expertise and build trust with your network!</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
@@ -298,7 +304,7 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Invite your circle to start sending and receiving referrals.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>🚀 Grow your referral network and start connecting with amazing colleagues!</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                   <div style={{
@@ -313,11 +319,11 @@ export default function DashboardPage() {
                   }}>
                     <div style={{ height: '8px', width: '8px', borderRadius: '50%', background: '#22c55e' }}></div>
                   </div>
-                  <p style={{ fontSize: '14px', color: '#4b5563' }}>Connect your calendar to enable direct booking.</p>
+                  <p style={{ fontSize: '14px', color: '#4b5563' }}>📅 Sync your schedule and make booking seamless for everyone!</p>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <Link href="/onboarding/practitioner" style={{
+                <Link href="/profile" style={{
                   borderRadius: '12px',
                   background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
                   padding: '10px 16px',
@@ -385,7 +391,7 @@ export default function DashboardPage() {
               <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>Send a referral</h3>
               <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '24px' }}>Share context and preferred availability. Track outcomes automatically.</p>
               <div>
-                <Link href="/referrals/send" style={{
+                <Link href="/referral" style={{
                   display: 'inline-flex',
                   borderRadius: '12px',
                   background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
